@@ -8,11 +8,29 @@ class RouteSet
     mapper = RouteMapper.new(self)
     mapper.instance_eval(&block)
   end
+
+  def add_route(type, path)
+    @routes[path] = {
+      type: type
+    }
+  end
 end
 
 class RouteMapper
-  def initialize(rotue_set)
-    @rotue_set = rotue_set
+  def initialize(route_set)
+    @route_set = route_set
+  end
+
+  def get(name)
+    @route_set.add_route("GET", name)
+  end
+
+  def post(name)
+    @route_set.add_route("POST", name)
+  end
+
+  def delete(name)
+    @route_set.add_route("DELETE", name)
   end
 end
 
@@ -26,5 +44,9 @@ end
 # Testing
 
 Rails.routes.draw do
+  get :about
+  post :user
+  delete :post
+
   p self
 end
